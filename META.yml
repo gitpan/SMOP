@@ -20,4 +20,4 @@ meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: SMOP
-version: 0.2
+version: 0.3

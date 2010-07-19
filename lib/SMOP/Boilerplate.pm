@@ -1,6 +1,6 @@
 package SMOP::Boilerplate;
 BEGIN {
-  $SMOP::Boilerplate::VERSION = '0.2';
+  $SMOP::Boilerplate::VERSION = '0.3';
 }
 our $BOILERPLATE = <<'END';
 #include <smop/base.h>
