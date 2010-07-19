@@ -14,7 +14,7 @@ my %module_build_args = (
     'ExtUtils::CBuilder' => '0.27',
     'File::Copy' => '0',
     'File::Path' => '2.08',
-    'Mildew' => '0.02',
+    'Mildew' => '0.03',
     'Module::Build' => '0.3601',
     'String::Escape' => '0'
   },
@@ -24,7 +24,7 @@ my %module_build_args = (
     'Daniel Ruoso <daniel@ruoso.com>'
   ],
   'dist_name' => 'SMOP',
-  'dist_version' => '0.1',
+  'dist_version' => '0.2',
   'license' => 'artistic_2',
   'module_name' => 'SMOP',
   'recommends' => {},
