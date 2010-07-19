@@ -1,0 +1,72 @@
+diff --git a/v6/Mildew/lib/Mildew/Backend/C.pm b/v6/Mildew/lib/Mildew/Backend/C.pm
+index 31c9c71..5068f1b 100644
+--- a/v6/Mildew/lib/Mildew/Backend/C.pm
++++ b/v6/Mildew/lib/Mildew/Backend/C.pm
+@@ -25,6 +25,7 @@ role Mildew::Backend::C {
+     method compile($ast,$output) {
+         die "-o is required when compiling to an executable\n" unless $output;
+         my ($c_fh,$c_file) = tempfile();
++        say $c_file;
+         binmode($c_fh,":utf8");
+         print $c_fh $self->c_source($self->load_setting ? $self->add_setting_load($ast) : $ast);
+ 
+diff --git a/v6/Mildew/lib/Mildew/Backend/OptC.pm b/v6/Mildew/lib/Mildew/Backend/OptC.pm
+index 90c6222..59f017b 100644
+--- a/v6/Mildew/lib/Mildew/Backend/OptC.pm
++++ b/v6/Mildew/lib/Mildew/Backend/OptC.pm
+@@ -2,10 +2,12 @@ use v5.10;
+ use MooseX::Declare;
+ use Mildew::SSA;
+ use Types;
++use utf8;
+ class Mildew::Backend::OptC with Mildew::Backend::C {
+     use File::Temp qw(tempfile tmpnam);
+     use String::Escape qw(backslash quote);
+     use Getopt::Long qw(GetOptionsFromArray);
++    use Encode qw(encode_utf8);
+     has options=>(is=>'ro',default=>sub {{}});
+     has trace=>(is=>'rw');
+     has dump=>(is=>'rw');
+@@ -95,7 +97,7 @@ class Mildew::Backend::OptC with Mildew::Backend::C {
+                 # TODO properly quote characters
+                 $str =~ s/(["\\])/\\$1/g;
+                 $str =~ s/\n/\\n/g;
+-                $constant->('SMOP__NATIVE__idconst_createn("' . $str . '",' . length($_[0]->value) . ')');
++                $constant->('SMOP__NATIVE__idconst_createn("' . $str . '",' . length(encode_utf8($_[0]->value)) . ')');
+             } elsif ($_[0]->isa('AST::IntegerConstant')) {
+                 $constant->('SMOP__NATIVE__int_create(' . $_[0]->value . ')');
+             } elsif ($_[0]->isa('AST::Block::SSA')) {
+diff --git a/v6/smop/inc/SMOP/RI/Writer.pm b/v6/smop/inc/SMOP/RI/Writer.pm
+index cbd936f..e11aaae 100644
+--- a/v6/smop/inc/SMOP/RI/Writer.pm
++++ b/v6/smop/inc/SMOP/RI/Writer.pm
+@@ -49,8 +49,8 @@ sub mangle {
+ 
+ sub process_ri {
+     my ($ri_file,$c_file) = @_;
+-    open(my $from,"<",$ri_file);
+-    open(my $to,">",$c_file);
++    open(my $from,"<:encoding(UTF-8)",$ri_file);
++    open(my $to,">:encoding(UTF-8)",$c_file);
+ 
+     my @properties = qw(RI RI.id prefix include prototype singleton nagc.nofree prefix struct lowlevel);
+     my %properties;
+diff --git a/v6/smop/s1p/src/lexicalscope.ri b/v6/smop/s1p/src/lexicalscope.ri
+index 6382001..9527604 100644
+--- a/v6/smop/s1p/src/lexicalscope.ri
++++ b/v6/smop/s1p/src/lexicalscope.ri
+@@ -34,10 +34,13 @@
+   SMOP__Object* smop_shortcut_lexical_scope_lookup(SMOP__Object* interpreter,SMOP__Object* invocant,SMOP__Object* key) {
+ 
+       int len;
+-      //fprintf(stderr,"Looking up %s.\n",SMOP__NATIVE__idconst_fetch_with_null(key, &len));
++      fprintf(stderr,"Looking up %s.\n",SMOP__NATIVE__idconst_fetch_with_null(key, &len));
+ 
+     smop_lexicalscope_entry* entries = ((smop_s1p_lexicalscope_struct*)invocant)->entries;
+     while (entries) {
++      int retsize;
++      fprintf(stderr,"Seen %s\n",SMOP__NATIVE__idconst_fetch_with_null(entries->key, &retsize));
++
+       if (entries->key == key) {
+         SMOP_RELEASE(interpreter,key);
+         return SMOP__S1P__Lexical_create(SMOP_REFERENCE(interpreter,invocant),entries);
