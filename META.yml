@@ -10,7 +10,8 @@ configure_requires:
   ExtUtils::CBuilder: 0.27
   File::Copy: 0
   File::Path: 2.08
-  Mildew: 0.03
+  List::MoreUtils: 0
+  Mildew: 0.04
   Module::Build: 0.3601
   String::Escape: 0
 dynamic_config: 0
@@ -20,4 +21,4 @@ meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: SMOP
-version: 0.3
+version: 0.4

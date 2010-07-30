@@ -2,7 +2,6 @@
 #include "perl.h"
 #include "XSUB.h"
 
-#include "ppport.h"
 
 #include <smop/base.h>
 #include <smop/native.h>
@@ -14,7 +13,7 @@
 
 SMOP__Object* SMOP__ID__goto;
 SMOP__Object* SMOP__ID__setr;
-MODULE = SMOP		PACKAGE = SMOP		
+MODULE = SMOP::Interoperability		PACKAGE = SMOP::Interoperability
 
 BOOT:
     SMOP__ID__goto = SMOP__NATIVE__idconst_create("goto");
@@ -26,11 +25,14 @@ goto_back(SV* ret)
     SMOP__Object* interpreter = SMOP__P5__smop_interpreter;
 
 
+    SMOP__Object* wrapped_sv =  SMOP__P5__SV_create(SMOP__P5__smop_interpreter,(SMOP_REFERENCE(interpreter,SMOP__P5__smop_p5interpreter)),ret);
+
     SMOP_DISPATCH(interpreter,SMOP_RI(SMOP__P5__current_back),SMOP__ID__setr,
       SMOP__NATIVE__capture_create(interpreter,
         (SMOP__Object*[]) {
           SMOP_REFERENCE(interpreter,SMOP__P5__current_back),
-          SMOP__P5__SV_create(SMOP__P5__smop_interpreter,SMOP_REFERENCE(interpreter,SMOP__P5__smop_p5interpreter),ret),NULL
+          wrapped_sv,
+          NULL
         },
         (SMOP__Object*[]) { NULL }
     ));
@@ -38,9 +40,9 @@ goto_back(SV* ret)
   SMOP_DISPATCH(interpreter, SMOP_RI(interpreter), SMOP__ID__goto,SMOP__NATIVE__capture_create(interpreter,(SMOP__Object*[]) {SMOP_REFERENCE(interpreter,interpreter),SMOP_REFERENCE(interpreter,SMOP__P5__current_back) , NULL}, (SMOP__Object*[]) {NULL}));
 
 
-    SMOP__P5__transfer_to_main_coro(interpreter,my_perl);
+    SMOP__P5__transfer_to_main_coro(aTHX_ interpreter);
 
-MODULE = SMOP       PACKAGE = SMOP::Object
+MODULE = SMOP::Interoperability       PACKAGE = SMOP::Object
 
 SV*
 AUTOLOAD(SV* self, ...)
@@ -56,10 +58,10 @@ AUTOLOAD(SV* self, ...)
     SMOP__Object* ret = SMOP_DISPATCH(interpreter,SMOP_RI(object),SMOP__NATIVE__idconst_createn(identifier,len),SMOP__NATIVE__capture_create(interpreter,(SMOP__Object*[]) {SMOP_REFERENCE(interpreter,object),NULL},(SMOP__Object*[]) {NULL}));
 
 
-    RETVAL = SMOP__Object2SV(interpreter,my_perl,ret);
+    RETVAL = SMOP__Object2SV(interpreter,aTHX_ ret);
     SMOP__P5__result_sv = RETVAL;
 
-    SMOP__P5__transfer_to_main_coro(interpreter,my_perl);
+    SMOP__P5__transfer_to_main_coro(aTHX_ interpreter);
 
   OUTPUT:
     RETVAL
@@ -71,10 +73,10 @@ void DESTROY(SV* self)
     SMOP__Object* object = (SMOP__Object*)SvIV(value);    
     SMOP__Object* interpreter = SMOP__P5__smop_interpreter;
     SMOP_RELEASE(interpreter,object);
-    SMOP__P5__transfer_to_main_coro(interpreter,my_perl);
+    SMOP__P5__transfer_to_main_coro(aTHX_ interpreter);
 
 
-MODULE = SMOP       PACKAGE = SMOP::NATIVE::bool
+MODULE = SMOP::Interoperability       PACKAGE = SMOP::NATIVE::bool
 
 SV*
 true(...)
@@ -104,7 +106,7 @@ int fetch(SV* self)
   OUTPUT:
     RETVAL
 
-MODULE = SMOP       PACKAGE = SMOP::NATIVE::int
+MODULE = SMOP::Interoperability       PACKAGE = SMOP::NATIVE::int
 
 SV*
 create(SV* p5class, int i)
@@ -126,7 +128,7 @@ fetch(SV* self)
   OUTPUT:
     RETVAL
 
-MODULE = SMOP       PACKAGE = SMOP::NATIVE::idconst
+MODULE = SMOP::Interoperability       PACKAGE = SMOP::NATIVE::idconst
 
 SV*
 create(SV* p5class, char* val)

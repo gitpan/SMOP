@@ -1,4 +1,5 @@
 Build.PL
+Interoperability.xs
 LICENSE
 MANIFEST
 META.yml
@@ -9,9 +10,7 @@ SMOP/Makefile
 SMOP/Makefile.PL
 SMOP/README
 SMOP/SMOP.bs
-SMOP/SMOP.c
 SMOP/SMOP.o
-SMOP/SMOP.xs
 SMOP/blib/arch/auto/SMOP/SMOP.bs
 SMOP/blib/arch/auto/SMOP/SMOP.so
 SMOP/blib/lib/SMOP.pm
@@ -23,11 +22,9 @@ base/include/smop/base.h
 capture/include/smop/capture.h
 capture/src/capture.c
 capture/t/capture.c
-diff
 dist.ini
 dump/include/smop/dump.h
 dump/src/dump.c
-foo.c
 inc/MyBuilder.pm
 inc/SMOP/RI/Writer.pm
 interpreter/include/smop/interpreter.h
@@ -35,6 +32,7 @@ interpreter/src/interpreter.c
 interpreter/t/interpreter.c
 lib/SMOP.pm
 lib/SMOP/Boilerplate.pm
+lib/SMOP/Interoperability.pm
 lost/include/smop/lost.h
 lost/src/lost.c
 lost/t/lostframe.c
@@ -106,7 +104,6 @@ p6opaque/src/p6opaque_default_how.ri
 p6opaque/src/p6opaque_proto_storage.ri
 profile/include/smop/profile.h
 profile/src/profile.c
-run_test
 s0native/include/smop/s0native.h
 s0native/src/bool.c
 s0native/src/empty_interpreter.c
@@ -139,7 +136,6 @@ s1p/src/lexical_prelude.c
 s1p/src/lexicalscope.ri
 s1p/src/loader.ri
 s1p/src/package.ri
-s1p/src/prelude.p6
 s1p/src/primitives.c
 s1p/src/proto.ri
 s1p/src/ritest.c

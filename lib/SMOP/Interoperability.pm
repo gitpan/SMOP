@@ -1,4 +1,7 @@
 package SMOP;
+BEGIN {
+  $SMOP::VERSION = '0.4';
+}
 
 use 5.010000;
 use strict;
@@ -7,7 +10,6 @@ use Carp;
 use Coro;
 our $main_coro = new Coro::State;
 
-our $VERSION = '0.01';
 
 require XSLoader;
 XSLoader::load('SMOP::Interoperability', $VERSION);
@@ -17,7 +19,7 @@ sub coro_from_eval {
     Coro::State->new(sub {
        my $ret = eval $code;
        die if $@;
-       SMOP::goto_back($ret);
+       SMOP::Interoperability::goto_back($ret);
     });
 }
 sub coro_from_methodcall {
@@ -26,7 +28,7 @@ sub coro_from_methodcall {
     my $args = \@_;
     Coro::State->new(sub {
         my $ret = $invocant->$method(@$args);
-        SMOP::goto_back($ret);
+        SMOP::Interoperability::goto_back($ret);
     });
 }
 sub coro_from_subcall {
@@ -34,11 +36,14 @@ sub coro_from_subcall {
     my $args = \@_;
     Coro::State->new(sub {
         my $ret = $sub->(@$args);
-        SMOP::goto_back($ret);
+        SMOP::Interoperability::goto_back($ret);
     });
 }
 
 package SMOP::Object;
+BEGIN {
+  $SMOP::Object::VERSION = '0.4';
+}
 use overload
 #'fallback' =>0,
     'bool' => sub {
