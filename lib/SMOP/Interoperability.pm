@@ -1,6 +1,6 @@
 package SMOP;
 BEGIN {
-  $SMOP::VERSION = '0.4';
+  $SMOP::VERSION = '0.5';
 }
 
 use 5.010000;
@@ -12,7 +12,7 @@ our $main_coro = new Coro::State;
 
 
 require XSLoader;
-XSLoader::load('SMOP::Interoperability', $VERSION);
+XSLoader::load('SMOP::Interoperability');
 
 sub coro_from_eval {
     my $code = shift;
@@ -42,7 +42,7 @@ sub coro_from_subcall {
 
 package SMOP::Object;
 BEGIN {
-  $SMOP::Object::VERSION = '0.4';
+  $SMOP::Object::VERSION = '0.5';
 }
 use overload
 #'fallback' =>0,

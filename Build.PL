@@ -15,7 +15,7 @@ my %module_build_args = (
     'File::Copy' => '0',
     'File::Path' => '2.08',
     'List::MoreUtils' => '0',
-    'Mildew' => '0.04',
+    'Mildew' => '0.05',
     'Module::Build' => '0.3601',
     'String::Escape' => '0'
   },
@@ -25,7 +25,7 @@ my %module_build_args = (
     'Daniel Ruoso <daniel@ruoso.com>'
   ],
   'dist_name' => 'SMOP',
-  'dist_version' => '0.4',
+  'dist_version' => '0.5',
   'license' => 'artistic_2',
   'module_name' => 'SMOP',
   'recommends' => {},

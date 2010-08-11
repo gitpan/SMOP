@@ -1,7 +1,8 @@
 package SMOP::Boilerplate;
 BEGIN {
-  $SMOP::Boilerplate::VERSION = '0.4';
+  $SMOP::Boilerplate::VERSION = '0.5';
 }
+
 our $BOILERPLATE = <<'END';
 #include <smop/base.h>
 #include <smop/s0native.h>
@@ -20,8 +21,8 @@ our $BOILERPLATE = <<'END';
 #include <smop/nagc.h>
 #include <stdio.h>
 
-/*void smop_p5_init(SMOP__Object* interpreter);
-void smop_p5_destr(SMOP__Object* interpreter);*/
+void smop_p5_init(SMOP__Object* interpreter);
+void smop_p5_destr(SMOP__Object* interpreter);
 
 /* Your helper function go here */
 %%FUNCS%%
