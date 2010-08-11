@@ -1,6 +1,6 @@
 package SMOP;
 BEGIN {
-  $SMOP::VERSION = '0.5';
+  $SMOP::VERSION = '0.6';
 }
 # ABSTRACT: Simple Meta Object Programming
 my @MODULES = qw(s0native dump nagc util capture interpreter mold yeast native lost s1p p6opaque s1p-oo mold-message profile p5 main);

@@ -25,7 +25,7 @@ my %module_build_args = (
     'Daniel Ruoso <daniel@ruoso.com>'
   ],
   'dist_name' => 'SMOP',
-  'dist_version' => '0.5',
+  'dist_version' => '0.6',
   'license' => 'artistic_2',
   'module_name' => 'SMOP',
   'recommends' => {},

@@ -1,6 +1,6 @@
 package SMOP;
 BEGIN {
-  $SMOP::VERSION = '0.5';
+  $SMOP::VERSION = '0.6';
 }
 
 use 5.010000;
@@ -42,7 +42,7 @@ sub coro_from_subcall {
 
 package SMOP::Object;
 BEGIN {
-  $SMOP::Object::VERSION = '0.5';
+  $SMOP::Object::VERSION = '0.6';
 }
 use overload
 #'fallback' =>0,

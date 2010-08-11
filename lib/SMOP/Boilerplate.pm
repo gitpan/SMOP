@@ -1,6 +1,6 @@
 package SMOP::Boilerplate;
 BEGIN {
-  $SMOP::Boilerplate::VERSION = '0.5';
+  $SMOP::Boilerplate::VERSION = '0.6';
 }
 
 our $BOILERPLATE = <<'END';
